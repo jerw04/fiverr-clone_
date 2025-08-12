@@ -1,11 +1,25 @@
-const mongoose = require("mongoose");
+// Add this at the TOP of config/db.js
+require('dotenv').config();
 
-const connectDB = async (uri) => {
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
   try {
-    const db = await mongoose.connect(uri);
-    console.log(`Database connected: ${db.connection.host}`);
-  } catch (err) {
-    console.log(err);
+    // Debug: Check if MONGO_URI is available
+    console.log('MONGO_URI in db.js:', process.env.MONGO_URI);
+    
+    if (!process.env.MONGO_URI) {
+      throw new Error('MONGO_URI is not defined in environment variables');
+    }
+
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error('MongoDB connection error:', error.message);
     process.exit(1);
   }
 };

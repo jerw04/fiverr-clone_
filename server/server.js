@@ -1,4 +1,10 @@
 require("dotenv").config();
+console.log('Dotenv config result:', require('dotenv').config());
+
+// Debug: Check specific variables
+console.log('PORT:', process.env.PORT);
+console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('Current working directory:', process.cwd());
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
